@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Logo from "./Logo";
+import { Link } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = (props) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -12,18 +13,14 @@ const Navbar = () => {
         </a>
 
         <ul className="hidden xl:flex items-center gap-12 font-semibold text-base">
-          <li className="p-3 hover:bg-accent hover:text-background rounded-md translate-all cursor-pointer">
-            Home
-          </li>
-          <li className="p-3 hover:bg-accent hover:text-background rounded-md translate-all cursor-pointer">
-            Products
-          </li>
-          <li className="p-3 hover:bg-accent hover:text-background rounded-md translate-all cursor-pointer">
-            Explore
-          </li>
-          <li className="p-3 hover:bg-accent hover:text-background rounded-md translate-all cursor-pointer">
-            Contact
-          </li>
+          {props.categorys.map((item, index) => (
+            <Link key={index} to={props.categoryLinks[index]}>
+              <li
+                className="p-3 hover:bg-accent hover:text-background rounded-md translate-all cursor-pointer"
+              >
+                {item}</li>
+            </Link>
+          ))}
         </ul>
 
         <div className="relative hidden md:flex items-center justify-center gap-3">
@@ -46,23 +43,17 @@ const Navbar = () => {
         </div>
         <div
           className={`absolute xl:hidden top-24 left-0 w-full bg-background flex flex-col items-center gap-6 font-semibold text-lg 
-        transform transition-transform ${
-          isMenuOpen ? "opacity-100" : "opacity-0"
-        }`}
+        transform transition-transform ${isMenuOpen ? "opacity-100" : "opacity-0"}`}
           style={{ transition: "transform 0.3s ease, opacity 0.3s ease" }}
         >
-          <li className="list-none w-full text-center p-4 hover:bg-accent hover:text-background transition-all cursor-pointer">
-            Home
-          </li>
-          <li className="list-none w-full text-center p-4 hover:bg-accent hover:text-background transition-all cursor-pointer">
-            Products
-          </li>
-          <li className="list-none w-full text-center p-4 hover:bg-accent hover:text-background transition-all cursor-pointer">
-            Explore
-          </li>
-          <li className="list-none w-full text-center p-4 hover:bg-accent hover:text-background transition-all cursor-pointer">
-            Contact
-          </li>
+          {props.categorys.map((item, index) => (
+            <Link key={index} to={props.categoryLinks[index]}>
+              <li
+                className="list-none w-full text-center p-4 hover:bg-accent hover:text-background transition-all cursor-pointer">
+                {item}
+              </li>
+            </Link>
+          ))}
         </div>
       </header>
     </div>

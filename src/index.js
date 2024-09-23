@@ -3,6 +3,17 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import "boxicons";
+
+if (process.env.NODE_ENV === 'development') {
+  const originalError = console.error;
+  console.error = (...args) => {
+    if (/Legacy context API has been detected/.test(args[0])) {
+      return; // Bỏ qua cảnh báo này
+    }
+    originalError(...args); // Gọi lại console.error gốc
+  };
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

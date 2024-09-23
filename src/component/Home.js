@@ -7,15 +7,12 @@ const Home = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Name:", name);
-    console.log("Email:", email);
   };
 
-  return (
-    <div className="w-full h-full absolute bg-gradient-to-r from-primary to-secondary">
-      <Navbar />
-    </div>
-  );
+  const categorys = ["Home", "Products", "Category", "Contact"];
+  const categoryLinks = ["/Home", "/", "/Category", "#"];
+
+  return <div></div>;
 };
 
 export default Home;
