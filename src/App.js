@@ -1,13 +1,15 @@
 import "./App.css";
-import LoginPage from "./component/LoginPage";
+import LoginPage from "./component/category/LoginPage";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import Home from "./component/Home";
-import Navbar from "./component/Navbar";
-import ManageModule from "./component/category/ManageModule";
+import Home from "./component/category/Home";
+import Navbar from "./component/element/Navbar";
+import ManaUser from "./component/category/ManaUser";
+import ManaRole from "./component/category/ManaRole";
+import ManaPermission from "./component/category/ManaPermission";
 
 function App() {
   const categorys = ["Home", "Products", "Category", "Contact"];
-  const categoryLinks = ["/Home", "/", "/Category", "#"];
+  const categoryLinks = ["/Home", "/Product", "/Category", "/Contact"];
 
   const location = useLocation();
   const isLoginPage = location.pathname === "/"; // Kiểm tra nếu là trang login
@@ -18,7 +20,9 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/Home" element={<Home />} />
-        <Route path="/Category" element={<ManageModule />} />
+        <Route path="/Product" element={<ManaPermission />} />
+        <Route path="/Category" element={<ManaUser />} />
+        <Route path="/Contact" element={<ManaRole />} />
       </Routes>
     </div>
   );

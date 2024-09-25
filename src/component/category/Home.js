@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Navbar from "./Navbar";
+import Navbar from "../element/Navbar";
 
 const Home = () => {
   const [name, setName] = useState("");
@@ -12,7 +12,8 @@ const Home = () => {
   const categorys = ["Home", "Products", "Category", "Contact"];
   const categoryLinks = ["/Home", "/", "/Category", "#"];
 
-  return <div></div>;
+  return <div>
+  </div>;
 };
 
 export default Home;

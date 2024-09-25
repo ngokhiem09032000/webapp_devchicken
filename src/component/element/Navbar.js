@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import Logo from "./Logo";
 import { Link } from "react-router-dom";
+import AvatarDropdown from "./AvatarDropdown";
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = (props) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const navigate = useNavigate();
   return (
     <div>
       <header className="flex justify-between items-center text-text py-6 px-8 md:px-32 bg-white drop-shadow-md">
@@ -35,6 +37,10 @@ const Navbar = (props) => {
           ></input>
         </div>
 
+        <div>
+          <AvatarDropdown></AvatarDropdown>
+        </div>
+
         <div
           className="xl:hidden block cursor-pointer text-5xl"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -47,12 +53,10 @@ const Navbar = (props) => {
           style={{ transition: "transform 0.3s ease, opacity 0.3s ease" }}
         >
           {props.categorys.map((item, index) => (
-            <Link key={index} to={props.categoryLinks[index]}>
-              <li
-                className="list-none w-full text-center p-4 hover:bg-accent hover:text-background transition-all cursor-pointer">
-                {item}
-              </li>
-            </Link>
+            <li key={index} onClick={() => navigate(props.categoryLinks[index])}
+              className="list-none w-full text-center p-4 hover:bg-accent hover:text-background transition-all cursor-pointer">
+              {item}
+            </li>
           ))}
         </div>
       </header>
