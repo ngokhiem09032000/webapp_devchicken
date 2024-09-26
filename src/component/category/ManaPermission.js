@@ -12,6 +12,7 @@ const listValueInit = []; // listValue : những giá trị để thay đổi ke
 
 // Dùng để truyền vào Popup edit và create
 const listKeyEdit = ["name", "description"]; // lấy những trường muốn hiển thị lên popup Edit
+const listKeyEditEndPoint = ["", ""]; // nếu trong popup edit loại của nó là Select thì lấy dữ liệu từ endpoint này để làm options
 const listTypeKeyEdit = [0, 0]; // 0: textbox ; 1: datebox => listKeyEdit
 const listDisableEdit = [true, false]; // chỉ disable khi tạo => listKeyEdit
 // Dùng để truyền vào Popup edit và create
@@ -28,6 +29,7 @@ const ManaPermission = () => {
                 listValueP={listValue}
                 listValueInitP={listValueInit}
                 listKeyEditP={listKeyEdit}
+                listKeyEditEndPointP={listKeyEditEndPoint}
                 listTypeKeyEditP={listTypeKeyEdit}
                 listDisableEditP={listDisableEdit}
                 nameKeyIdP={nameKeyId}

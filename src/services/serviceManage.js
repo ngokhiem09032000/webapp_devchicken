@@ -30,7 +30,6 @@ export const getItems = async (endpoint, navigate) => {
 
 export const update = async (module, endpoint, navigate) => {
     try {
-        debugger;
         if (!verifyRefreshToken(navigate))
             return
         const response = await apiToken.put(endpoint + "/" + module.id, module);
@@ -58,9 +57,10 @@ export const remove = async (id, endpoint, navigate) => {
         if (!verifyRefreshToken(navigate))
             return
         const response = await apiToken.delete(endpoint + "/" + id);
+        return response.data;
     } catch (error) {
         console.error("Lỗi khi gọi API remove:", error);
-        return error.response;
+        return error.response.data;
     }
 };
 
@@ -80,7 +80,6 @@ export const getKeys = async (endpoint, navigate) => {
 // verify token
 const introspect = async (tk) => {
     try {
-        debugger;
         const module = { token: tk };
         const response = await api.post("auth/introspect", module);
         if (!response
@@ -107,7 +106,6 @@ const isTokenExpiringSoon = (token) => {
 // refresh token
 const refreshAccessToken = async (tk) => {
     try {
-        debugger;
         const module = { token: tk };
         const response = await api.post("auth/refresh", module);
         if (response

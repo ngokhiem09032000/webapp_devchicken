@@ -8,6 +8,7 @@
     "@atlaskit/field-text": "^11.0.7",
     "@atlaskit/form": "^10.5.3",
     "@atlaskit/pagination": "^14.8.1",
+    "@atlaskit/select": "^17.19.0",
     "@atlaskit/textfield": "^6.5.1",
     "@atlaskit/tokens": "^1.60.0",
     "@testing-library/jest-dom": "^5.17.0",

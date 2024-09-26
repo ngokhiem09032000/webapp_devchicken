@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react';
 import PopupEdit from "../popup/PopupEdit";
 import PopupReponse from "../popup/PopupReponse";
 import Pagination from '@atlaskit/pagination';
-import { castDate, mapModuleList, initModule, camelCaseToSpaces } from "../tool/toolAll";
+import { castDate, mapModuleList, initModule, camelCaseToSpaces, castModule, castModuleEdit } from "../tool/toolAll";
 import { useNavigate } from 'react-router-dom';
 
-const ManageModule = ({ endpointP, nameModuleP, listKeyP, listConditionP, listValueP, listValueInitP, listKeyEditP, listTypeKeyEditP, listDisableEditP, nameKeyIdP }) => {
+const ManageModule = ({ endpointP, nameModuleP, listKeyP, listConditionP, listValueP, listValueInitP, listKeyEditP, listKeyEditEndPointP, listTypeKeyEditP, listDisableEditP, nameKeyIdP }) => {
 
     // const endpoint = "users";
     // const nameModule = "User"
@@ -31,6 +31,7 @@ const ManageModule = ({ endpointP, nameModuleP, listKeyP, listConditionP, listVa
     const listValueInit = listValueInitP;
     // Dùng để truyền vào Popup edit và create
     const listKeyEdit = listKeyEditP;
+    const listKeyEditEndPoint = listKeyEditEndPointP;
     const listTypeKeyEdit = listTypeKeyEditP;
     const listDisableEdit = listDisableEditP; // chỉ disable khi tạo
     // Dùng để truyền vào Popup edit và create
@@ -80,12 +81,13 @@ const ManageModule = ({ endpointP, nameModuleP, listKeyP, listConditionP, listVa
     }, []);
 
     const handleUpdate = (module) => {
+        console.log('module: ', module);
         setSelectedModule(module);  // Chọn người dùng cần sửa
         setIsPopupOpen(true);
         setTitleName("Update");
     };
 
-    const handleAdd = (module) => {
+    const handleAdd = () => {
         createModuleData = initModule(keys.result, listKey, listCondition, listValueInit, nameKeyId); // khởi tạo data rỗng để có thể thêm mới
         setSelectedModule(createModuleData);
         setIsPopupOpen(true);
@@ -94,11 +96,12 @@ const ManageModule = ({ endpointP, nameModuleP, listKeyP, listConditionP, listVa
 
     const handleDelete = async (id) => {
         // Xử lý xóa người dùng
-        await remove(id, endpoint, navigate);
+        const reponse = await remove(id, endpoint, navigate);
+        debugger;
         setPopup({
             isOpen: true,
-            message: "Delete successful!",
-            type: "success",
+            message: reponse.message ? reponse.message : "Success!",
+            type: reponse.message ? "error" : "success",
             closeButton: false,
         });
         setCurrentPage(1);
@@ -108,10 +111,13 @@ const ManageModule = ({ endpointP, nameModuleP, listKeyP, listConditionP, listVa
     const handleModuleUpdate = async (updatedModule) => {
         // Xử lý cập nhật thông tin người dùng (gọi API update hoặc cập nhật state)
         let reponse = "";
-        if (updatedModule.id != null) {
-            reponse = await update(updatedModule, endpoint, navigate);
+        const moduleSave = castModuleEdit(updatedModule);
+        debugger;
+        console.log('moduleSave: ', moduleSave);
+        if (moduleSave.id != null) {
+            reponse = await update(moduleSave, endpoint, navigate);
         } else {
-            reponse = await create(updatedModule, endpoint, navigate);
+            reponse = await create(moduleSave, endpoint, navigate);
         }
         setPopup({
             isOpen: true,
@@ -147,7 +153,7 @@ const ManageModule = ({ endpointP, nameModuleP, listKeyP, listConditionP, listVa
                 <thead>
                     <tr className="bg-background text-text uppercase text-sm">
                         {keys && keys.result ? keys.result
-                            .filter(k => k !== "id")
+                            .filter(k => k !== nameKeyId)
                             .map((k, index) => (
                                 <th key={index + endpoint} className={`py-3 px-4 border-b border-r `}>{camelCaseToSpaces(k)}</th>
                             )) : <></>}
@@ -158,9 +164,9 @@ const ManageModule = ({ endpointP, nameModuleP, listKeyP, listConditionP, listVa
                     {getPaginatedData().map((module, indexA) => (
                         <tr key={indexA} className="hover:bg-border">
                             {keys && keys.result ? keys.result
-                                .filter(k => k !== "id")
+                                .filter(k => k !== nameKeyId)
                                 .map((k, indexB) => (
-                                    <td key={indexB + endpoint} className="py-3 px-4 border-b border-r">{module[k]}</td>
+                                    <td key={indexB + endpoint} className="py-3 px-4 border-b border-r">{castModule(module[k])}</td>
                                 )) : <></>}
                             <td className="py-3 px-4 border-b flex space-x-2">
                                 <button className="bg-button text-text px-4 py-2 rounded hover:bg-accent hover:text-background"
@@ -200,8 +206,10 @@ const ManageModule = ({ endpointP, nameModuleP, listKeyP, listConditionP, listVa
                 titleName={titleName}
                 moduleName={nameModule}
                 listKey={listKeyEdit}
+                listKeyEndPoint={listKeyEditEndPoint}
                 listTypeKey={listTypeKeyEdit}
                 listDisable={listDisableEdit}
+                navigate={navigate}
             />
             {popup.isOpen && (
                 <PopupReponse

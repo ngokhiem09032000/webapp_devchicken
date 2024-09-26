@@ -1,7 +1,7 @@
 import { parseISO, format } from 'date-fns';
 
 export const castDate = (dateString) => {
-    if (dateString == null)
+    if (dateString === null)
         return "";
     const parsedDate = parseISO(dateString); // Phân tích chuỗi ngày
     const formattedDate = format(parsedDate, 'dd/MM/yyyy');
@@ -31,13 +31,17 @@ export const mapModule = (data, listKey, listCondition, listValue) => {
     // newData.roles = data.roles ? data.roles.map(role => role.name) : []; 
 
     for (let i = 0; i < listKey.length; i++) {
-        if (listCondition[i] == 0)
+        if (listCondition[i] === 0)
             newData[listKey[i]] = listValue[i];
-        if (listCondition[i] == 1) {
-            if (listValue[i] == "")
+        if (listCondition[i] === 1) {
+            if (listValue[i] === "")
                 newData[listKey[i]] = [];
             else
-                newData[listKey[i]] = data[listKey[i]] ? data[listKey[i]].map(r => r[listValue[i]]) : [];
+                // newData[listKey[i]] = data[listKey[i]] ? data[listKey[i]].map(r => r[listValue[i]]) : [];
+                newData[listKey[i]] = data[listKey[i]] ? data[listKey[i]].map(r => ({
+                    label: r["description"],
+                    value: r[listValue[i]]
+                })) : [];
         }
     }
     return newData;
@@ -49,7 +53,7 @@ export const mapModule = (data, listKey, listCondition, listValue) => {
 // data : keyNames
 export const initModule = (data, listKey, listCondition, listValue, nameKeyId) => {
 
-    if (data == undefined)
+    if (!data)
         return {};
     let newData = {};
     // data : ["id","userName","passWord","fullName","birthDate","roles"]
@@ -59,16 +63,14 @@ export const initModule = (data, listKey, listCondition, listValue, nameKeyId) =
 
     // newUser.passWord = "12345678";  // Thêm thuộc tính passWord
     // newUser.roles = data.roles ? data.roles.map(role => role.name) : []; 
-    debugger;
     for (let i = 0; i < data.length; i++) {
         const keyN = data[i];
-        if (keyN == nameKeyId) {
+        if (keyN === nameKeyId) {
             newData[keyN] = null;
             continue;
         }
         newData[keyN] = "";
     }
-    console.log(newData);
     const rs = mapModule(newData, listKey, listCondition, listValue);
 
     return rs;
@@ -81,3 +83,32 @@ export function camelCaseToSpaces(str) {
         .trim() // Loại bỏ khoảng trắng ở đầu và cuối
         .replace(/^./, (match) => match.toUpperCase()); // Chữ cái đầu tiên thành chữ hoa
 }
+
+// ép từ value db sang value để hiển thị
+export const castModule = (module) => {
+    if (Array.isArray(module) && module)
+        return module.map(r => r.value).join(' - ');
+    return module;
+}
+
+// ép kiểu dữ liệu trả từ form eidt để lưu db
+export function castModuleEdit(obj) {
+    debugger;
+    // Kiểm tra từng thuộc tính của đối tượng
+    if (!obj)
+        return obj;
+    for (let key in obj) {
+        if (Array.isArray(obj[key])) {
+            // Nếu thuộc tính là mảng
+            obj[key] = obj[key].map(item => {
+                // Kiểm tra nếu item là đối tượng và có thuộc tính 'value' { label: 'Option 1', value: 'option1' }
+                if (typeof item === 'object' && item !== null && 'value' in item) {
+                    return item.value;
+                }
+                return item; // Nếu không, giữ nguyên item
+            });
+        }
+    }
+    return obj;
+}
+

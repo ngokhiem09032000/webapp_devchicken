@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import TextFieldCus from '../element/TextFieldCus';
-import { camelCaseToSpaces } from "../tool/toolAll";
+import { camelCaseToSpaces, castModule } from "../tool/toolAll";
+import SelectCus from '../element/SelectCus';
+import { de } from 'date-fns/locale';
 
 
 // listKey : là những key của module muốn tạo hoặc cập nhật ( ["userName","fullName","birthDate"] )
-// listTypeKey : là những loại component của từng key ([0,0,1]) 0: là Textfield ; 1 là DatePicker
+// listTypeKey : là những loại component của từng key ([0,0,1]) 0: là Textfield ; 1 là DatePicker ; 2 là Select ( cần truyền thêm 1 list option)
 // listDisable : là những loại disable của từng key ([true,false,false]) false: là not disable ; true là disable
-const PopupEdit = ({ module, isOpen, onClose, onUpdate, titleName, moduleName, listKey, listTypeKey, listDisable }) => {
+const PopupEdit = ({ module, isOpen, onClose, onUpdate, titleName, moduleName, listKey, listKeyEndPoint, listTypeKey, listDisable, navigate }) => {
 
     const [moduleUpdate, setModuleUpdate] = useState({ ...module });
-    debugger;
+
     useEffect(() => {
         if (module) {
             setModuleUpdate({ ...module });
         }
+        console.log('module1', module);
     }, [module]);
 
     if (!isOpen) return null;
@@ -30,29 +33,45 @@ const PopupEdit = ({ module, isOpen, onClose, onUpdate, titleName, moduleName, l
                 <h2 className="text-xl font-bold mb-4">{titleName} {moduleName}</h2>
                 <form onSubmit={handleSubmit}>
                     {listKey ? listKey.map((item, index) => {
-                        debugger;
-                        if (listTypeKey[index] == 1
-                            && (moduleUpdate[item] == '' || moduleUpdate[item] == null)) {
+
+                        if (listTypeKey[index] === 1
+                            && (moduleUpdate[item] === '' || moduleUpdate[item] === null)) {
                             setModuleUpdate({ ...moduleUpdate, [item]: '2000-01-01' });
                         }
                         return (
                             <div key={index} className="mb-4">
                                 <TextFieldCus
-                                    type={listTypeKey[index] == 0 ? "text" : ""}
-                                    disabled={listDisable[index] && titleName != "Create"}
+                                    type={listTypeKey[index] === 0 ? "text" : ""}
+                                    disabled={listDisable[index] && titleName !== "Create"}
                                     value={moduleUpdate[item] || ''}
-                                    onChange={listTypeKey[index] == 0 ?
-                                        (e) => setModuleUpdate({ ...moduleUpdate, [item]: e.target.value })
-                                        : (e) => setModuleUpdate({ ...moduleUpdate, [item]: e })
+                                    onChange={listTypeKey[index] === 0 ?
+                                        (e) => setModuleUpdate({ ...moduleUpdate, [item]: e.target.value }) :
+                                        (e) => setModuleUpdate({ ...moduleUpdate, [item]: e })
                                     }
+                                    onChoose={(e) => {
+                                        setModuleUpdate(prevState => ({
+                                            ...prevState,
+                                            [item]: [...prevState[item], e]
+                                        }));
+                                    }}
+                                    onDelete={(e) => {
+                                        console.log('onDelete={(module)', e);
+                                        setModuleUpdate(prevState => ({
+                                            ...prevState,
+                                            [item]: prevState[item].filter(itemB => e.value !== itemB.value)
+                                        }));
+                                        debugger;
+                                    }}
                                     required
                                     label={camelCaseToSpaces(item)}
-                                    isDateTime={listTypeKey[index] == 0 ? false : true}
+                                    typeBox={listTypeKey[index]}
+                                    keyEndPoint={listKeyEndPoint[index]}
+                                    navigate={navigate}
                                 ></TextFieldCus>
                             </div>
                         )
                     }) : <></>}
-                    <div className="flex justify-end space-x-2">
+                    <div className="flex justify-end space-x-2 mt-10">
                         <button
                             type="button"
                             className="bg-button text-white px-4 py-2 rounded hover:bg-accent"

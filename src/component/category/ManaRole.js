@@ -8,9 +8,10 @@ const listCondition = [1];
 const listValue = ["name"];
 const listValueInit = [""];
 // Dùng để truyền vào Popup edit và create
-const listKeyEdit = ["name", "description"];
-const listTypeKeyEdit = [0, 0];
-const listDisableEdit = [true, false]; // chỉ disable khi tạo
+const listKeyEdit = ["name", "description", "permissions"];
+const listKeyEditEndPoint = ["", "", "permissions"]; // nếu trong popup edit loại của nó là Select thì lấy dữ liệu từ endpoint này để làm options
+const listTypeKeyEdit = [0, 0, 2];
+const listDisableEdit = [true, false, false]; // chỉ disable khi tạo
 // Dùng để truyền vào Popup edit và create
 const nameKeyId = "name";
 
@@ -25,6 +26,7 @@ const ManaUser = () => {
                 listValueP={listValue}
                 listValueInitP={listValueInit}
                 listKeyEditP={listKeyEdit}
+                listKeyEditEndPointP={listKeyEditEndPoint}
                 listTypeKeyEditP={listTypeKeyEdit}
                 listDisableEditP={listDisableEdit}
                 nameKeyIdP={nameKeyId}
