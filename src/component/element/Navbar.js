@@ -18,7 +18,7 @@ const Navbar = (props) => {
           {props.categorys.map((item, index) => (
             <Link key={index} to={props.categoryLinks[index]}>
               <li
-                className="p-3 hover:bg-accent hover:text-background rounded-md translate-all cursor-pointer"
+                className="p-3 hover:bg-blue-950 hover:text-white rounded-3xl translate-all cursor-pointer"
               >
                 {item}</li>
             </Link>

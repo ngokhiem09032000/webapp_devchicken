@@ -112,3 +112,8 @@ export function castModuleEdit(obj) {
     return obj;
 }
 
+export function convertVnd(price) {
+    const formattedNumber = price.toLocaleString('vi-VN') + ' đ';
+    return formattedNumber;
+}
+

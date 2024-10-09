@@ -28,7 +28,7 @@ const AvatarDropdown = () => {
     }, []);
 
     return (
-        <div className="relative inline-block text-left" ref={dropdownRef}>
+        <div className="relative inline-block text-left z-10" ref={dropdownRef}>
             {/* Avatar */}
             <div>
                 <button
@@ -45,7 +45,7 @@ const AvatarDropdown = () => {
 
             {/* Dropdown Menu */}
             {isOpen && (
-                <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
+                <div className="absolute -left-2 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
                     <div className="py-1">
                         <button
                             onClick={() => alert('Xem hồ sơ')}

@@ -1,19 +1,11 @@
-import React, { useState } from "react";
-import Navbar from "../element/Navbar";
+import React from 'react';
 
 const Home = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
-
-  const categorys = ["Home", "Products", "Category", "Contact"];
-  const categoryLinks = ["/Home", "/", "/Category", "#"];
-
-  return <div>
-  </div>;
+  return (
+    <div>
+      Home
+    </div>
+  );
 };
 
 export default Home;
