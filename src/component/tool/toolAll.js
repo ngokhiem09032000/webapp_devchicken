@@ -1,7 +1,7 @@
 import { parseISO, format } from 'date-fns';
 
 export const castDate = (dateString) => {
-    if (dateString === null)
+    if (!dateString)
         return "";
     const parsedDate = parseISO(dateString); // Phân tích chuỗi ngày
     const formattedDate = format(parsedDate, 'dd/MM/yyyy');
@@ -93,7 +93,7 @@ export const castModule = (module) => {
 
 // ép kiểu dữ liệu trả từ form eidt để lưu db
 export function castModuleEdit(obj) {
-    debugger;
+
     // Kiểm tra từng thuộc tính của đối tượng
     if (!obj)
         return obj;
@@ -115,5 +115,45 @@ export function castModuleEdit(obj) {
 export function convertVnd(price) {
     const formattedNumber = price.toLocaleString('vi-VN') + ' đ';
     return formattedNumber;
+}
+
+// Hàm để thêm vào cart bằng id
+export const addOrUpdateCart = (list, newObj) => {
+    // Tìm đối tượng có id trùng
+    const existingIndex = list.findIndex(item => (item.id === newObj.id && item.size === newObj.size));
+
+    if (existingIndex !== -1) {
+        // Nếu tồn tại, cập nhật age
+        list[existingIndex].amount += newObj.amount;
+    } else {
+        // Nếu không tồn tại, thêm mới vào danh sách
+        list.push(newObj);
+    }
+
+    return list;
+};
+
+// tính tổng số sản phẩm trong cart
+export const calculateAmount = (cartData) => {
+    let init = 0;
+    if (cartData && cartData.length > 0) {
+        const totalAmount = cartData.reduce((accumulator, current) => {
+            return accumulator + current.amount;
+        }, 0);
+        init = totalAmount;
+    }
+    return init;
+}
+
+// tính tổng giá tất cả các sản phẩm và phí shipper
+export const calculatePriceAll = (cartData, shippingFee) => {
+    let init = 0;
+    if (cartData && cartData.length > 0) {
+        const total = cartData.reduce((accumulator, current) => {
+            return accumulator + (current.amount * current.price);
+        }, 0);
+        init = total;
+    }
+    return init === 0 ? 0 : init + shippingFee;
 }
 

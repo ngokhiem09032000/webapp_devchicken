@@ -1,17 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Logo from "./Logo";
 import { Link } from "react-router-dom";
 import AvatarDropdown from "./AvatarDropdown";
 import { useNavigate } from 'react-router-dom';
+import { CiLogout, CiShoppingCart, CiUser } from "react-icons/ci";
+import { GlobalContext } from "./GlobalContext";
 
 const Navbar = (props) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
+
   return (
     <div>
       <header className="flex justify-between items-center text-text py-6 px-8 md:px-32 bg-white drop-shadow-md">
         <a href="#">
-          <Logo name="devchicken"></Logo>
+          <Logo name="DEVCHICKEN"></Logo>
         </a>
 
         <ul className="hidden xl:flex items-center gap-12 font-semibold text-base">
@@ -37,8 +41,16 @@ const Navbar = (props) => {
           ></input>
         </div>
 
-        <div>
-          <AvatarDropdown></AvatarDropdown>
+        <div className="flex space-x-2">
+          <div onClick={props.onAccount}>
+            <CiUser size={30} />
+          </div>
+          <div className="relative" onClick={props.onCart}>
+            <CiShoppingCart size={30} />
+            {globalVariable > 0 && <div className="absolute -top-1 left-5 bg-black rounded-full w-auto h-4 flex items-center justify-center p-1">
+              <span className="text-xs text-white">{globalVariable}</span>
+            </div>}
+          </div>
         </div>
 
         <div

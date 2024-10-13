@@ -60,7 +60,7 @@ const ProductPage = () => {
 
     const fetchModules = async (key, stock, minP, maxP, page) => {
         try {
-            debugger;
+
             const data = await searchItems(navigate, key, stock ? 0 : -1, minP, maxP, page, itemsPerPage);
             console.log(data);
             if (data && data.code === 1000 && data.result && data.result.content) {
@@ -83,10 +83,11 @@ const ProductPage = () => {
             <div className="w-9/12 bg-white p-4">
                 <div className='grid grid-cols-4 gap-4'>
                     {modules && modules.map((item, index) => (
-                        <div onClick={() => {
-                            navigate("/product/" + item.id);
-                        }}>
-                            <ItemProduct key={index} name={item.name} description={item.description} price={item.price} imageUrl={item.imageUrl} stock={item.stock}></ItemProduct>
+                        <div key={index}>
+                            <ItemProduct name={item.name} description={item.description} price={item.price} imageUrl={item.imageUrl}
+                                color={item.color} sizes={item.sizes} viewItem={() => {
+                                    navigate("/product/" + item.id);
+                                }}></ItemProduct>
                         </div>
                     ))}
                 </div>

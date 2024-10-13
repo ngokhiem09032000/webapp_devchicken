@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { token } from "../../services/serviceLogin";
 import Logo from "../element/Logo";
 import PopupReponse from "../popup/PopupReponse";
+import { CiLogin } from "react-icons/ci";
+import { PiTrademarkRegisteredLight } from "react-icons/pi";
+import { GlobalContext } from "../element/GlobalContext";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -33,81 +36,90 @@ const LoginPage = () => {
     };
 
     if (!username || !password) {
-      setPopup({
-        isOpen: true,
-        message: "Login failed!",
-        type: "error",
-        closeButton: false,
-      });
+      // setPopup({
+      //   isOpen: true,
+      //   message: "Login failed!",
+      //   type: "error",
+      //   closeButton: false,
+      // });
+      alert("Đăng nhập thất bại");
       return;
     }
 
     const data = await token(acount);
 
     if (data && data.code === 1000 && data.result.authenticated === true) {
-      setPopup({
-        isOpen: true,
-        message: "Login successful!",
-        type: "success",
-        closeButton: false,
-      });
-
+      // setPopup({
+      //   isOpen: true,
+      //   message: "Login successful!",
+      //   type: "success",
+      //   closeButton: false,
+      // });
+      alert("Đăng nhập Thành công");
       localStorage.setItem("authToken", data.result.token);
       navigate("/Home");
     } else {
-      setPopup({
-        isOpen: true,
-        message: "Login failed!",
-        type: "error",
-        closeButton: false,
-      });
+      // setPopup({
+      //   isOpen: true,
+      //   message: "Login failed!",
+      //   type: "error",
+      //   closeButton: false,
+      // });
+      alert("Đăng nhập thất bại");
       localStorage.removeItem("authToken");
     }
   };
   return (
-    <div className="w-full min-h-screen flex">
-      {/* Nửa bên trái có background */}
-      <div className="hidden md:flex w-1/2  h-screen bg-primary items-center justify-center">
-        <div className="text-center">
-          <Logo name="devchicken"></Logo>
-        </div>
-      </div>
-
+    <div className="flex p-5">
       {/* Nửa bên phải không có background */}
-      <div className="w-full md:w-1/2 h-screen flex items-center justify-center bg-secondary">
-        <div className="md:hidden max-sm:hidden absolute top-10">
-          <Logo name="devchicken"></Logo>
-        </div>
-        <div className="w-96 p-8 bg-background shadow-lg rounded-lg">
-          <h2 className="text-2xl font-semibold text-center mb-6 text-primary">
-            Login
+      <div className="w-full flex items-center justify-center">
+        <div className="w-1/2 p-8 pt-4 border rounded shadow-lg">
+          <h2 className="text-2xl font-bold text-center mb-6">
+            Đăng nhập
           </h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label className="block text-text mb-2">Username</label>
+              <label className="block text-text mb-2">Email</label>
               <input
                 type="text"
                 className="w-full p-2 border border-border rounded"
-                placeholder="Enter your username"
+                placeholder="Nhập email của bạn"
                 value={username}
                 onChange={handleInputChange}
               />
             </div>
-            <div className="mb-6">
-              <label className="block text-text mb-2">Password</label>
+            <div className="mb-1">
+              <label className="block text-text mb-2">Mật khẩu</label>
               <input
                 type="password"
                 className="w-full p-2 border border-border rounded"
-                placeholder="Enter your password"
+                placeholder="Nhập mật khẩu"
                 value={password}
                 onChange={handlePasswordChange}
               />
             </div>
+            <div className="mb-6">
+              <div className="block mb-2 cursor-pointer text-gray-400 hover:text-text text-sm">Quên mật khẩu</div>
+            </div>
             <button
               type="submit"
-              className="w-full py-2 px-4 bg-button text-text font-semibold rounded hover:bg-accent"
+              className="w-full py-2 px-4 bg-blue-950 text-white rounded-3xl hover:bg-white border border-blue-950 hover:text-blue-950 mb-3"
             >
-              Login
+              <div className='flex justify-center items-center'>
+                <CiLogin size={30} className='mr-2' />
+                <span>Đăng nhập</span>
+              </div>
+            </button>
+            <button
+              type="button" onClick={() => {
+                navigate("/register");
+              }}
+              className="w-full py-2 px-4 bg-blue-950 text-white rounded-3xl hover:bg-white border border-blue-950 hover:text-blue-950"
+            >
+              <div className='flex justify-center items-center'>
+                <PiTrademarkRegisteredLight size={30} className='mr-2' />
+                <span>Đăng ký</span>
+              </div>
             </button>
           </form>
           {popup.isOpen && (

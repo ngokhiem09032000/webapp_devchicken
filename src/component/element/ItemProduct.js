@@ -2,14 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { fetchImage } from '../../services/apiService';
 import { convertVnd } from '../tool/toolAll';
 
-const ItemProduct = ({ name, description, price, imageUrl, stock }) => {
+const ItemProduct = ({ name, description, price, imageUrl, viewItem, color, sizes }) => {
+
+    const stock = sizes.reduce((total, size) => {
+        return total + parseInt(size.stock, 10); // Chuyển stock thành number và cộng vào tổng
+    }, 0);
+
     return (
         <div>
             <div className="max-w-sm rounded overflow-hidden shadow-lg transform transition duration-300 hover:scale-90 hover:shadow-xl relative">
-                <img className="w-full h-48 object-scale-down" src={imageUrl} alt="Product Image" />
+                <img className="w-full h-48 object-scale-down" src={imageUrl} alt="Product Image" onClick={viewItem} />
                 <div className="px-6 py-4">
                     <div className="font-bold text-xl mb-2">{name}</div>
-                    <p className="text-gray-700 text-base">
+                    <p className="text-gray-800 text-base mb-2">
+                        {color}
+                    </p>
+                    <p className="text-gray-500 text-base">
                         {description}
                     </p>
                     <div className="flex items-center justify-between mt-4">

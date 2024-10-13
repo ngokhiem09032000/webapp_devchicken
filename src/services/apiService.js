@@ -5,6 +5,11 @@ const expTime = 15; // đơn vị phút ( thời gian còn lại để refresh t
 // URL gốc của API (có thể cấu hình theo ý bạn)
 // const API_BASE_URL = "http://14.225.217.118:8080/demo1";
 export const API_BASE_URL = "http://localhost:8080/demo1";
+export const cartTitle = 'cart'; // tên biến trong local storage
+export const authTokenTitle = 'authToken'; // tên biến trong local storage
+export const shippingFee = 30000; // vnd
+export const orderTitle = 'order';
+export const orderDetailsTitle = 'orderDetails';
 
 // Cấu hình axios instance
 export const api = axios.create({
@@ -25,7 +30,7 @@ export const apiToken = () => {
   });
   apiTk.interceptors.request.use(
     (config) => {
-      const token = localStorage.getItem("authToken");
+      const token = localStorage.getItem(authTokenTitle);
       if (token) {
         config.headers['Authorization'] = 'Bearer ' + token;
       }
@@ -83,7 +88,7 @@ const refreshAccessToken = async (tk) => {
 // true : phải thực hiện tiếp sau khi gọi hàm này 
 // false : quay về trang đăng nhập và xóa token trong localStorage
 export const verifyRefreshToken = async (navigate) => {
-  const tk = localStorage.getItem("authToken");
+  const tk = localStorage.getItem(authTokenTitle);
   const tokenValid = await introspect(tk);
   if (!tokenValid) {
     localStorage.removeItem("authToken");
@@ -99,7 +104,7 @@ export const verifyRefreshToken = async (navigate) => {
 export const fetchImage = async (url) => {
 
   const fileName = url.split('/').pop();
-  const token = localStorage.getItem("authToken"); // Nếu cần token
+  // const token = localStorage.getItem(authTokenTitle); // Nếu cần token
   try {
     const response = await fetch(`${API_BASE_URL}/upload/${fileName}`, {
       method: 'GET',
@@ -114,5 +119,31 @@ export const fetchImage = async (url) => {
     return blob; // Hoặc cách khác tùy thuộc vào cách bạn xử lý hình ảnh
   } catch (error) {
     console.error('Error fetching image:', error);
+  }
+};
+
+// lấy info từ token
+export const getMyInfo = async () => {
+  try {
+    if (!localStorage.getItem(authTokenTitle))
+      return null;
+    const response = await apiToken().get("users/myinfo");
+
+    if (response && response.data && response.data.code === 1000)
+      return response.data;
+    return null;
+  } catch (error) {
+    console.error("Lỗi khi gọi API getMyInfo:", error);
+    return null;
+  }
+};
+
+export const create = async (module) => {
+  try {
+    const response = await api.post("users", module);
+    return response.data;
+  } catch (error) {
+    console.error("Lỗi khi gọi API create:", error);
+    return error.response.data;
   }
 };

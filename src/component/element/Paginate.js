@@ -1,4 +1,5 @@
 import React from 'react';
+import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import ReactPaginate from 'react-paginate';
 
 const Paginate = ({ onPageChange, pageCount, forcePage }) => {
@@ -8,12 +9,12 @@ const Paginate = ({ onPageChange, pageCount, forcePage }) => {
                 breakLabel="..."
                 nextLabel={
                     <div className='cursor-pointer border border-gray-500 rounded-full px-4 py-2 transition-transform duration-200 ease-in-out hover:bg-gray-200 text-sm'>
-                        next
+                        <MdNavigateNext size={18} />
                     </div>
                 }
                 previousLabel={
                     <div className='cursor-pointer border border-gray-500 rounded-full px-4 py-2 transition-transform duration-200 ease-in-out hover:bg-gray-200 text-sm'>
-                        previous
+                        <MdNavigateBefore size={18} />
                     </div>
                 }
 

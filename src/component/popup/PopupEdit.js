@@ -60,7 +60,7 @@ const PopupEdit = ({ module, isOpen, onClose, onUpdate, titleName, moduleName, l
                                             ...prevState,
                                             [item]: prevState[item].filter(itemB => e.value !== itemB.value)
                                         }));
-                                        debugger;
+
                                     }}
                                     required
                                     label={camelCaseToSpaces(item)}
