@@ -25,11 +25,10 @@ const CartPage = () => {
             const cartData = JSON.parse(localStorage.getItem(cartTitle));
             const ids = cartData.map(item => item.id);
             const data = await searchItemsByIds(ids);
-            console.log(data);
             if (data && data.code === 1000 && data.result) {
                 const mergedList = cartData.map(item => {
                     const nameObject = data.result.find(nameItem => (nameItem.id === item.id));
-                    debugger;
+
                     const sizeObject = nameObject.sizes.find(sizeItem => (sizeItem.id.name === item.size));
                     const variableAmount = item && item.amount ? item.amount : 0;
                     return {

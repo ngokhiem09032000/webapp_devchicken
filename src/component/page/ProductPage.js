@@ -62,7 +62,6 @@ const ProductPage = () => {
         try {
 
             const data = await searchItems(navigate, key, stock ? 0 : -1, minP, maxP, page, itemsPerPage);
-            console.log(data);
             if (data && data.code === 1000 && data.result && data.result.content) {
                 totalPages.current = data.result.totalPages;
                 setModules(data.result.content);

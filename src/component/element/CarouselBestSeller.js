@@ -13,7 +13,6 @@ const CarouselBestSeller = () => {
         try {
 
             const data = await searchItems(navigate, "", -1, 0, 9999999999, 0, 10);
-            console.log(data);
             if (data && data.code === 1000 && data.result && data.result.content) {
                 setModules(data.result.content);
             }

@@ -16,7 +16,6 @@ const PopupEdit = ({ module, isOpen, onClose, onUpdate, titleName, moduleName, l
         if (module) {
             setModuleUpdate({ ...module });
         }
-        console.log('module1', module);
     }, [module]);
 
     if (!isOpen) return null;
@@ -55,7 +54,6 @@ const PopupEdit = ({ module, isOpen, onClose, onUpdate, titleName, moduleName, l
                                         }));
                                     }}
                                     onDelete={(e) => {
-                                        console.log('onDelete={(module)', e);
                                         setModuleUpdate(prevState => ({
                                             ...prevState,
                                             [item]: prevState[item].filter(itemB => e.value !== itemB.value)

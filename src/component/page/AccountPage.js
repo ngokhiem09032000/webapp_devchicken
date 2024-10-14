@@ -27,10 +27,9 @@ const AccountPage = () => {
             const rs = await getMyInfo();
             if (rs) {
                 setUser(rs.result);
-                debugger;
+
                 const ordersObj = await getItems(rs.result.userName);
                 setOrders(ordersObj.result);
-                console.log('ordersObj: ', ordersObj.result);
                 return;
             }
             setUser(null);

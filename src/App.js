@@ -23,7 +23,7 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    debugger;
+
     // Mỗi khi URL thay đổi, xóa dữ liệu trong sessionStorage
     if (location.pathname !== "/complete") {
       sessionStorage.removeItem(orderTitle);

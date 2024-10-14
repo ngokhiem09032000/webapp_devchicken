@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { cartTitle, getMyInfo, orderDetailsTitle, orderTitle, shippingFee } from '../../services/apiService';
-import { searchItemsByIds } from '../../services/serviceProduct';
+import { searchItemsByIds, updateStock } from '../../services/serviceProduct';
 import { calculatePriceAll, convertVnd } from '../tool/toolAll';
 import Required from '../element/Required';
 import { SiTruenas } from 'react-icons/si';
@@ -31,11 +31,10 @@ const PayPage = () => {
             const cartData = JSON.parse(localStorage.getItem(cartTitle));
             const ids = cartData.map(item => item.id);
             const data = await searchItemsByIds(ids);
-            console.log(data);
             if (data && data.code === 1000 && data.result) {
                 const mergedList = cartData.map(item => {
                     const nameObject = data.result.find(nameItem => (nameItem.id === item.id));
-                    debugger;
+
                     const sizeObject = nameObject.sizes.find(sizeItem => (sizeItem.id.name === item.size));
                     const variableAmount = item && item.amount ? item.amount : 0;
                     return {
@@ -156,6 +155,7 @@ const PayPage = () => {
                 detailOrders: modules,
             }
             create(orderCreate);
+            updateStock(modules);
             localStorage.removeItem(cartTitle);
             setGlobalVariable(0);
             navigate('/complete');
@@ -170,7 +170,7 @@ const PayPage = () => {
         <div className="block lg:flex">
             {/* Phần Trái - Cuộn */}
             <div className="w-full lg:w-7/12 p-10 bg-white flex">
-                <div className='hidden lg:w-1/6'></div>
+                <div className='hidden lg:w-1/6 lg:block'></div>
                 <div className='w-full lg:w-5/6'>
                     <form onSubmit={handleSubmit} noValidate>
                         <div className="mb-3">
