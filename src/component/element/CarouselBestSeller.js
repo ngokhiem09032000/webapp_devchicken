@@ -52,7 +52,7 @@ const CarouselBestSeller = () => {
     return (
         <div className="relative overflow-hidden w-full">
             {/* Indicators */}
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
+            {/* <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
                 {modules &&
                     Array.from({ length: Math.ceil(modules.length / 4) }, (_, index) => (
                         <button
@@ -63,7 +63,7 @@ const CarouselBestSeller = () => {
                         />
                     ))
                 }
-            </div>
+            </div> */}
 
             {/* Slideshow */}
             <div
@@ -72,9 +72,9 @@ const CarouselBestSeller = () => {
             >
                 {modules &&
                     modules.map((item, index) => (
-                        <div key={index} className="w-1/4 flex-shrink-0 p-5">
+                        <div key={index} className="w-full sm:w-1/2 lg:w-2/6 xl:w-1/4 flex-shrink-0 p-5">
                             <ItemProduct name={item.name} description={item.description} price={item.price} imageUrl={item.imageUrl}
-                                color={item.color} sizes={item.sizes} viewItem={() => {
+                                imageUrl2={item.imageUrl2} color={item.color} sizes={item.sizes} viewItem={() => {
                                     navigate("/product/" + item.id);
                                 }}></ItemProduct>
                         </div>

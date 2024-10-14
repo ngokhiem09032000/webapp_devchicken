@@ -9,3 +9,14 @@ export const create = async (module) => {
         return error.response.data;
     }
 };
+
+export const getItems = async (userName) => {
+    try {
+        const response = await api.get("orders/" + userName);
+        debugger;
+        return response.data;
+    } catch (error) {
+        console.error("Lỗi khi gọi API getItems:", error);
+        return error.response.data;
+    }
+};

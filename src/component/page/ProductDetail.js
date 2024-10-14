@@ -7,6 +7,7 @@ import { addOrUpdateCart, calculateAmount, convertVnd } from '../tool/toolAll';
 import { RiGuideFill } from 'react-icons/ri';
 import AmountBox from '../element/AmountBox';
 import { GlobalContext } from '../element/GlobalContext';
+import ChooseSizePopup from './ChooseSizePopup';
 
 const ProductDetail = () => {
     const { id } = useParams(); // Lấy ID từ URL
@@ -18,6 +19,9 @@ const ProductDetail = () => {
     const max = 999999;
     const min = 1;
     // AmountBox
+
+    const [srcChoose, setSrcChoose] = useState("");
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     const stock = product && product.sizes ? product.sizes.reduce((total, size) => {
         if (sizeChoose === size.id.name)
@@ -36,6 +40,7 @@ const ProductDetail = () => {
                 }
                 const data = await response.json();
                 setProduct(data.result);
+                setSrcChoose(data.result.imageUrl);
                 setSizeChoose(data.result.sizes[0].id.name);
                 // Giả sử dữ liệu sản phẩm nằm trong trường result
             } catch (error) {
@@ -79,14 +84,34 @@ const ProductDetail = () => {
 
     return (
 
-        <div className="mx-5 mt-5 mb-5 p-4 border rounded shadow-lg flex">
-            <img src={product.imageUrl} alt={product.name} className="w-1/2 h-96 object-contain rounded mt-6" />
-            <div className='w-1/2'>
+        <div className="mx-5 mt-5 mb-5 p-4 border rounded shadow-lg lg:flex">
+            <div className='w-full lg:w-1/2'>
+                <img src={srcChoose} alt={product.name} className="w-full h-96 object-contain rounded mt-6" />
+                <div className='flex'>
+                    <div className='w-1/4'></div>
+                    <div className='w-2/4 flex justify-center items-center space-x-2'>
+                        <img src={product.imageUrl} alt={product.name} className="w-20 h-20 object-contain rounded mt-6 border hover:border-gray-400" onClick={() => {
+                            setSrcChoose(product.imageUrl);
+                        }} />
+                        <img src={product.imageUrl2} alt={product.name} className="w-20 h-20 object-contain rounded mt-6 border hover:border-gray-400" onClick={() => {
+                            setSrcChoose(product.imageUrl2);
+                        }} />
+                        <img src={product.imageUrl3} alt={product.name} className="w-20 h-20 object-contain rounded mt-6 border hover:border-gray-400" onClick={() => {
+                            setSrcChoose(product.imageUrl3);
+                        }} />
+                    </div>
+                    <div className='w-1/4'></div>
+                </div>
+            </div>
+
+            <div className='w-full lg:w-1/2 p-4'>
                 <h1 className="text-2xl font-bold">{product.name}</h1>
                 <div className="mt-6 text-lg font-semibold">
                     <span className='pr-2'>{convertVnd(product.price)}</span>
                 </div>
-                <div className="mt-6 text-black cursor-pointer flex hover:text-gray-400">
+                <div className="mt-6 text-black cursor-pointer flex hover:text-gray-400" onClick={() => {
+                    setIsPopupOpen(true);
+                }}>
                     <RiGuideFill size={25} /><span>Hướng dẫn chọn size áo</span>
                 </div>
                 <div className='mt-6'>
@@ -137,6 +162,8 @@ const ProductDetail = () => {
                     {stock > 0 ? 'Thêm vào giỏ hàng' : 'Hết hàng'}
                 </button>
             </div>
+            <ChooseSizePopup isOpen={isPopupOpen}
+                onClose={() => setIsPopupOpen(false)}></ChooseSizePopup>
         </div>
     );
 };

@@ -157,3 +157,15 @@ export const calculatePriceAll = (cartData, shippingFee) => {
     return init === 0 ? 0 : init + shippingFee;
 }
 
+// tính tổng giá tất cả các sản phẩm
+export const calculatePriceAllNoShip = (cartData) => {
+    let init = 0;
+    if (cartData && cartData.length > 0) {
+        const total = cartData.reduce((accumulator, current) => {
+            return accumulator + (current.amount * current.price);
+        }, 0);
+        init = total;
+    }
+    return init === 0 ? 0 : init;
+}
+

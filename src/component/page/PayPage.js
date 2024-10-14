@@ -167,11 +167,11 @@ const PayPage = () => {
     };
 
     return (
-        <div className="flex">
+        <div className="block lg:flex">
             {/* Phần Trái - Cuộn */}
-            <div className="w-7/12 p-10 bg-white flex">
-                <div className='w-1/6'></div>
-                <div className='w-5/6'>
+            <div className="w-full lg:w-7/12 p-10 bg-white flex">
+                <div className='hidden lg:w-1/6'></div>
+                <div className='w-full lg:w-5/6'>
                     <form onSubmit={handleSubmit} noValidate>
                         <div className="mb-3">
                             <div className='flex'>
@@ -324,7 +324,7 @@ const PayPage = () => {
                         </div>
                         <button
                             type="submit"
-                            className="w-full py-2 px-4 bg-blue-950 text-white rounded-3xl hover:bg-white border border-blue-950 hover:text-blue-950 mb-3"
+                            className="hidden lg:block w-full py-2 px-4 bg-blue-950 text-white rounded-3xl hover:bg-white border border-blue-950 hover:text-blue-950 mb-3"
                         >
                             <div className='flex justify-center items-center'>
                                 <span>Hoàn tất hóa đơn</span>
@@ -335,7 +335,7 @@ const PayPage = () => {
             </div>
 
             {/* Phần Phải - Cố Định */}
-            <div className="w-5/12 bg-gray-100 border-gray-300">
+            <div className="w-full lg:w-5/12 bg-gray-100 border-gray-300">
                 <div className="p-4 sticky top-0">
                     {modules && modules.map((item, index) => (
                         <div key={index} className="flex p-2">
@@ -387,6 +387,15 @@ const PayPage = () => {
                             </div>
                         </div>
                     </div>
+                    <button
+                        type="button"
+                        className="lg:hidden w-full py-2 px-4 bg-blue-950 text-white rounded-3xl hover:bg-white border border-blue-950 hover:text-blue-950 mb-3"
+                        onClick={handleSubmit}
+                    >
+                        <div className='flex justify-center items-center'>
+                            <span>Hoàn tất hóa đơn</span>
+                        </div>
+                    </button>
                 </div>
             </div>
         </div>

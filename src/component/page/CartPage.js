@@ -7,6 +7,7 @@ import { searchItemsByIds } from '../../services/serviceProduct';
 import { cartTitle, shippingFee } from '../../services/apiService';
 import { calculateAmount, calculatePriceAll, convertVnd } from '../tool/toolAll';
 import { GlobalContext } from '../element/GlobalContext';
+import AmountBoxSmall from '../element/AmountBoxSmall';
 
 const CartPage = () => {
 
@@ -74,101 +75,147 @@ const CartPage = () => {
             <div className='text-3xl text-center font-bold'>
                 Giỏ Hàng
             </div>
-            <div className='flex p-5'>
-                <div className='w-1/12'></div>
-                <div className='w-7/12'>
+            <div className='xl:flex p-5'>
+                <div className='w-1/12 hidden xl:block'></div>
+                <div className='w-full xl:w-7/12'>
                     <hr></hr>
                     <div className='flex font-bold my-3'>
-                        <div className='w-5/12'>Sản phẩm</div>
+                        <div className='w-9/12 lg:w-5/12'>Sản phẩm</div>
                         <div className='w-3/12 text-center'>Số lượng</div>
-                        <div className='w-2/12'>Tổng</div>
-                        <div className='w-2/12'>SL tồn</div>
+                        <div className='w-2/12 hidden lg:block'>Tổng</div>
+                        <div className='w-2/12 hidden lg:block'>SL tồn</div>
                     </div>
                     {modules && modules.map((item, index) => (
                         <div key={index}>
                             <hr></hr>
                             <div className='flex font-bold my-3 justify-center items-center'>
-                                <div className='w-5/12'>
+                                <div className='w-9/12 lg:w-5/12'>
                                     <ItemCartProduct name={item.name} price={item.price} imageUrl={item.imageUrl} color={item.color} size={item.size} viewItem={() => {
                                         navigate("/product/" + item.id);
                                     }}></ItemCartProduct>
+                                    <div className='lg:hidden'>Tổng: {convertVnd(item.totalPrice)}</div>
+                                    <div className={`${item.amount > item.stock ? "text-red-500" : "text-black"} lg:hidden`}>SL tồn: {item.stock} áo</div>
                                 </div>
                                 <div className='w-3/12 text-center '>
                                     <div className='inline-flex'>
-                                        <AmountBox error={item.amount > item.stock} value={item.amount} min={min} max={max} handleChange={(e) => {
-                                            const inputValue = e.target.value;
-                                            const cart = JSON.parse(localStorage.getItem(cartTitle));
-                                            if (inputValue === '' || parseFloat(inputValue) > max || parseFloat(inputValue) < min) {
-                                                const updatedList = cart.map(itemA => {
-                                                    if (itemA.id === item.id && itemA.size === item.size) {
-                                                        return {
-                                                            ...itemA,
-                                                            amount: min,
-                                                            totalPrice: item.price * min
+                                        <div className='hidden xl:block'>
+                                            <AmountBox error={item.amount > item.stock} value={item.amount} min={min} max={max} handleChange={(e) => {
+                                                const inputValue = e.target.value;
+                                                const cart = JSON.parse(localStorage.getItem(cartTitle));
+                                                if (inputValue === '' || parseFloat(inputValue) > max || parseFloat(inputValue) < min) {
+                                                    const updatedList = cart.map(itemA => {
+                                                        if (itemA.id === item.id && itemA.size === item.size) {
+                                                            return {
+                                                                ...itemA,
+                                                                amount: min,
+                                                                totalPrice: item.price * min
+                                                            }
                                                         }
-                                                    }
-                                                    return itemA; // Giữ nguyên đối tượng nếu không trùng id
-                                                });
-                                                localStorage.setItem(cartTitle, JSON.stringify(updatedList));
-                                                let amount = calculateAmount(updatedList);
-                                                setGlobalVariable(amount);
-                                                fetchModules();
-                                                return;
-                                            }
-
-                                            if (Number.isInteger(parseFloat(inputValue))) {
-                                                const updatedList = cart.map(itemA => {
-                                                    if (itemA.id === item.id && itemA.size === item.size) {
-                                                        return {
-                                                            ...itemA,
-                                                            amount: parseInt(inputValue),
-                                                            totalPrice: item.price * parseInt(inputValue)
-                                                        }
-                                                    }
-                                                    return itemA; // Giữ nguyên đối tượng nếu không trùng id
-                                                });
-                                                localStorage.setItem(cartTitle, JSON.stringify(updatedList));
-                                                let amount = calculateAmount(updatedList);
-                                                setGlobalVariable(amount);
-                                                fetchModules();
-                                                return; // Nếu input là rỗng, trả về min, 
-                                            }
-
-                                        }} increaseValue={() => {
-                                            const cart = JSON.parse(localStorage.getItem(cartTitle));
-                                            if (item.amount < max) {
-                                                const updatedList = cart.map(itemA => {
-                                                    if (itemA.id === item.id && itemA.size === item.size) {
-                                                        return {
-                                                            ...itemA,
-                                                            amount: itemA.amount + 1,
-                                                            totalPrice: item.price * (itemA.amount + 1)
-                                                        }
-                                                    }
-                                                    return itemA; // Giữ nguyên đối tượng nếu không trùng id
-                                                });
-                                                localStorage.setItem(cartTitle, JSON.stringify(updatedList));
-                                                let amount = calculateAmount(updatedList);
-                                                setGlobalVariable(amount);
-                                                fetchModules();
-                                            }
-                                        }} decreaseValue={() => {
-                                            const cart = JSON.parse(localStorage.getItem(cartTitle));
-                                            const updatedList = cart.map(itemA => {
-                                                if (itemA.id === item.id && itemA.size === item.size) {
-                                                    return {
-                                                        ...itemA,
-                                                        amount: (itemA.amount > 1 ? itemA.amount - 1 : 1),
-                                                        totalPrice: item.price * (itemA.amount > 1 ? itemA.amount - 1 : 1)
-                                                    }
+                                                        return itemA; // Giữ nguyên đối tượng nếu không trùng id
+                                                    });
+                                                    localStorage.setItem(cartTitle, JSON.stringify(updatedList));
+                                                    let amount = calculateAmount(updatedList);
+                                                    setGlobalVariable(amount);
+                                                    fetchModules();
+                                                    return;
                                                 }
-                                                return itemA; // Giữ nguyên đối tượng nếu không trùng id
-                                            });
-                                            localStorage.setItem(cartTitle, JSON.stringify(updatedList));
-                                            let amount = calculateAmount(updatedList);
-                                            setGlobalVariable(amount);
-                                            fetchModules();
-                                        }}></AmountBox>
+
+                                                if (Number.isInteger(parseFloat(inputValue))) {
+                                                    const updatedList = cart.map(itemA => {
+                                                        if (itemA.id === item.id && itemA.size === item.size) {
+                                                            return {
+                                                                ...itemA,
+                                                                amount: parseInt(inputValue),
+                                                                totalPrice: item.price * parseInt(inputValue)
+                                                            }
+                                                        }
+                                                        return itemA; // Giữ nguyên đối tượng nếu không trùng id
+                                                    });
+                                                    localStorage.setItem(cartTitle, JSON.stringify(updatedList));
+                                                    let amount = calculateAmount(updatedList);
+                                                    setGlobalVariable(amount);
+                                                    fetchModules();
+                                                    return; // Nếu input là rỗng, trả về min, 
+                                                }
+
+                                            }} increaseValue={() => {
+                                                const cart = JSON.parse(localStorage.getItem(cartTitle));
+                                                if (item.amount < max) {
+                                                    const updatedList = cart.map(itemA => {
+                                                        if (itemA.id === item.id && itemA.size === item.size) {
+                                                            return {
+                                                                ...itemA,
+                                                                amount: itemA.amount + 1,
+                                                                totalPrice: item.price * (itemA.amount + 1)
+                                                            }
+                                                        }
+                                                        return itemA; // Giữ nguyên đối tượng nếu không trùng id
+                                                    });
+                                                    localStorage.setItem(cartTitle, JSON.stringify(updatedList));
+                                                    let amount = calculateAmount(updatedList);
+                                                    setGlobalVariable(amount);
+                                                    fetchModules();
+                                                }
+                                            }} decreaseValue={() => {
+                                                const cart = JSON.parse(localStorage.getItem(cartTitle));
+                                                const updatedList = cart.map(itemA => {
+                                                    if (itemA.id === item.id && itemA.size === item.size) {
+                                                        return {
+                                                            ...itemA,
+                                                            amount: (itemA.amount > 1 ? itemA.amount - 1 : 1),
+                                                            totalPrice: item.price * (itemA.amount > 1 ? itemA.amount - 1 : 1)
+                                                        }
+                                                    }
+                                                    return itemA; // Giữ nguyên đối tượng nếu không trùng id
+                                                });
+                                                localStorage.setItem(cartTitle, JSON.stringify(updatedList));
+                                                let amount = calculateAmount(updatedList);
+                                                setGlobalVariable(amount);
+                                                fetchModules();
+                                            }}></AmountBox>
+                                        </div>
+                                        <div className='xl:hidden'>
+                                            <AmountBoxSmall error={item.amount > item.stock} value={item.amount} min={min} max={max} handleChange={(e) => {
+                                                const inputValue = e.target.value;
+                                                const cart = JSON.parse(localStorage.getItem(cartTitle));
+                                                if (inputValue === '' || parseFloat(inputValue) > max || parseFloat(inputValue) < min) {
+                                                    const updatedList = cart.map(itemA => {
+                                                        if (itemA.id === item.id && itemA.size === item.size) {
+                                                            return {
+                                                                ...itemA,
+                                                                amount: min,
+                                                                totalPrice: item.price * min
+                                                            }
+                                                        }
+                                                        return itemA; // Giữ nguyên đối tượng nếu không trùng id
+                                                    });
+                                                    localStorage.setItem(cartTitle, JSON.stringify(updatedList));
+                                                    let amount = calculateAmount(updatedList);
+                                                    setGlobalVariable(amount);
+                                                    fetchModules();
+                                                    return;
+                                                }
+
+                                                if (Number.isInteger(parseFloat(inputValue))) {
+                                                    const updatedList = cart.map(itemA => {
+                                                        if (itemA.id === item.id && itemA.size === item.size) {
+                                                            return {
+                                                                ...itemA,
+                                                                amount: parseInt(inputValue),
+                                                                totalPrice: item.price * parseInt(inputValue)
+                                                            }
+                                                        }
+                                                        return itemA; // Giữ nguyên đối tượng nếu không trùng id
+                                                    });
+                                                    localStorage.setItem(cartTitle, JSON.stringify(updatedList));
+                                                    let amount = calculateAmount(updatedList);
+                                                    setGlobalVariable(amount);
+                                                    fetchModules();
+                                                    return; // Nếu input là rỗng, trả về min, 
+                                                }
+
+                                            }}></AmountBoxSmall>
+                                        </div>
                                     </div>
                                     <div className='cursor-pointer text-gray-500 hover:text-red-500' onClick={() => {
                                         const cart = JSON.parse(localStorage.getItem(cartTitle));
@@ -181,15 +228,15 @@ const CartPage = () => {
                                         xóa
                                     </div>
                                 </div>
-                                <div className='w-2/12'>{convertVnd(item.totalPrice)}</div>
-                                <div className={`w-2/12 ${item.amount > item.stock ? "text-red-500" : "text-black"}`}>{item.stock} áo</div>
+                                <div className='w-2/12 hidden lg:block'>{convertVnd(item.totalPrice)}</div>
+                                <div className={`w-2/12 ${item.amount > item.stock ? "text-red-500" : "text-black"} hidden lg:block`}>{item.stock} áo</div>
                             </div>
                         </div>
                     ))}
 
                 </div>
-                <div className='w-1/12'></div>
-                <form className='w-3/12 h-96 ml-4 border border-gray-200 rounded-lg'>
+                <div className='w-1/12 hidden xl:block'></div>
+                <form className='w-full xl:w-3/12 h-96 border border-gray-200 rounded-lg'>
                     <div className='flex p-3'>
                         <div className='w-1/2 text-xl'>
                             Phí vận chuyển

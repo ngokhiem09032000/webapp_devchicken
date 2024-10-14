@@ -27,16 +27,16 @@ const CompleteOrderPage = () => {
     }, []);
 
     return (
-        <div className="flex">
+        <div className="lg:flex">
             {/* Phần Trái - Cuộn */}
-            <div className="w-7/12 p-10 bg-white">
-                <div className='flex p-2'>
-                    <div className='w-1/6 flex items-center justify-end p-2 text-blue-950'><FaCheckCircle size={40} /></div>
-                    <div className='w-5/6 flex items-center justify-start text-2xl'>Cảm ơn {customer.fullName}!</div>
+            <div className="lg:w-7/12 p-3 bg-white">
+                <div className='flex lg:p-2'>
+                    <div className='lg:w-1/6 flex items-center justify-end p-2 text-blue-950'><FaCheckCircle size={40} /></div>
+                    <div className='lg:w-5/6 flex items-center justify-start text-2xl'>Cảm ơn {customer.fullName}!</div>
                 </div>
                 <div className='flex p-2'>
-                    <div className='w-1/6'></div>
-                    <div className='w-5/6'>
+                    <div className='hidden lg:w-1/6 lg:block'></div>
+                    <div className='w-full lg:w-5/6'>
                         <div className='border rounded p-2'>
                             <div className='p-3 text-xl'>Chi tiết đơn hàng</div>
                             <div className='flex p-3'>
@@ -85,8 +85,8 @@ const CompleteOrderPage = () => {
                     </div>
                 </div>
                 <div className='flex p-2'>
-                    <div className='w-1/6'></div>
-                    <div className='w-5/6 flex'>
+                    <div className='hidden lg:w-1/6 lg:block'></div>
+                    <div className='w-full lg:w-5/6 flex'>
                         <div className='w-1/2 cursor-pointer flex items-center'>
                             Bạn cần trợ giúp? Liên hệ với chúng tôi
                         </div>
@@ -104,7 +104,7 @@ const CompleteOrderPage = () => {
             </div>
 
             {/* Phần Phải - Cố Định */}
-            <div className="w-5/12 bg-gray-100 border-gray-300">
+            <div className="lg:w-5/12 bg-gray-100 border-gray-300">
                 <div className="p-4 sticky top-0">
                     {modules && modules.map((item, index) => (
                         <div key={index} className="flex p-2">

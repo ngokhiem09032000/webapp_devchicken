@@ -78,14 +78,14 @@ const ProductPage = () => {
     }, []);
 
     return (
-        <div className="flex">
-            <div className="w-1/12"></div>
-            <div className="w-9/12 bg-white p-4">
-                <div className='grid grid-cols-4 gap-4'>
+        <div className="flex w-full">
+            <div className="w-1/12 hidden md:block"></div>
+            <div className="flex-grow bg-white p-4">
+                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
                     {modules && modules.map((item, index) => (
                         <div key={index}>
                             <ItemProduct name={item.name} description={item.description} price={item.price} imageUrl={item.imageUrl}
-                                color={item.color} sizes={item.sizes} viewItem={() => {
+                                imageUrl2={item.imageUrl2} color={item.color} sizes={item.sizes} viewItem={() => {
                                     navigate("/product/" + item.id);
                                 }}></ItemProduct>
                         </div>
@@ -95,7 +95,7 @@ const ProductPage = () => {
                     <Paginate onPageChange={handlePageChange} pageCount={totalPages.current} forcePage={selectedPage}></Paginate>
                 </div>
             </div>
-            <div className="w-2/12 bg-white p-4">
+            <div className="min-w-[300px] bg-white p-4 hidden md:block">
                 <div className='flex p-3'>
                     <CiFilter size={25} />Bộ lọc
                 </div>

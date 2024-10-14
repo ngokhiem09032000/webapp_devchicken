@@ -80,7 +80,7 @@ const RegisterPage = () => {
         <div className="flex p-5">
             {/* Nửa bên phải không có background */}
             <div className="w-full flex items-center justify-center">
-                <div className="w-1/2 p-8 pt-4 border rounded shadow-lg">
+                <div className="w-full sm:w-full md:w-3/4 lg:w-1/2 p-8 pt-4 border rounded shadow-lg">
                     <h2 className="text-2xl font-bold text-center mb-6">
                         Đăng ký
                     </h2>
