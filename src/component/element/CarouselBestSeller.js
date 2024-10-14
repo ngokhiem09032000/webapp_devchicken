@@ -8,10 +8,10 @@ const CarouselBestSeller = () => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [modules, setModules] = useState([]);
     const navigate = useNavigate();
+    const [divideBy, setDivideBy] = useState(4); // Mặc định là chia cho 4
 
     const fetchModules = async () => {
         try {
-
             const data = await searchItems(navigate, "", -1, 0, 9999999999, 0, 10);
             if (data && data.code === 1000 && data.result && data.result.content) {
                 setModules(data.result.content);
@@ -22,38 +22,63 @@ const CarouselBestSeller = () => {
     };
 
     useEffect(() => {
+        const handleResize = () => {
+            if (window.matchMedia('(min-width: 1280px)').matches) {
+                // Tailwind xl: min-width 1280px
+                setDivideBy(4); // Nếu màn hình là md, chia cho 2
+            } else if (window.matchMedia('(min-width: 1024px)').matches) {
+                // Tailwind lg: min-width 1024px
+                setDivideBy(3); // Nếu màn hình là md, chia cho 2
+            } else if (window.matchMedia('(min-width: 768px)').matches) {
+                // Tailwind md: min-width 768px
+                setDivideBy(2); // Nếu màn hình là md, chia cho 2
+            } else if (window.matchMedia('(min-width: 640px)').matches) {
+                // Tailwind sm: min-width 640px
+                setDivideBy(2); // Nếu màn hình là sm, chia cho 1
+            } else {
+                setDivideBy(1); // Mặc định chia cho 1 nếu không phải sm hay md
+            }
+        };
+        // Gọi hàm khi load trang
+        handleResize();
         fetchModules();
+        // Lắng nghe sự thay đổi kích thước màn hình
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
     }, []);
 
     // Chuyển slide tự động sau 2 giây
     useEffect(() => {
         const interval = setInterval(() => {
             setActiveIndex((prevIndex) =>
-                prevIndex === Math.ceil(modules.length / 4) - 1 ? 0 : prevIndex + 1
+                prevIndex === Math.ceil(modules.length / divideBy) - 1 ? 0 : prevIndex + 1
             );
         }, 5000); // 2 giây
 
         return () => clearInterval(interval);
-    }, [activeIndex, Math.ceil(modules.length / 4)]);
+    }, [activeIndex, Math.ceil(modules.length / divideBy)]);
 
     const handlePrev = () => {
         setActiveIndex((prevIndex) =>
-            prevIndex === 0 ? Math.ceil(modules.length / 4) - 1 : prevIndex - 1
+            prevIndex === 0 ? Math.ceil(modules.length / divideBy) - 1 : prevIndex - 1
         );
     };
 
     const handleNext = () => {
         setActiveIndex((prevIndex) =>
-            prevIndex === Math.ceil(modules.length / 4) - 1 ? 0 : prevIndex + 1
+            prevIndex === Math.ceil(modules.length / divideBy) - 1 ? 0 : prevIndex + 1
         );
     };
 
     return (
         <div className="relative overflow-hidden w-full">
             {/* Indicators */}
-            {/* <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
                 {modules &&
-                    Array.from({ length: Math.ceil(modules.length / 4) }, (_, index) => (
+                    Array.from({ length: Math.ceil(modules.length / divideBy) }, (_, index) => (
                         <button
                             key={index}
                             onClick={() => setActiveIndex(index)}
@@ -62,7 +87,7 @@ const CarouselBestSeller = () => {
                         />
                     ))
                 }
-            </div> */}
+            </div>
 
             {/* Slideshow */}
             <div
