@@ -7,7 +7,6 @@ import { CiFilter } from 'react-icons/ci';
 import Toggle from '../element/Toggle';
 import PriceFilter from '../element/PriceFilter';
 import TextBox from '../element/TextBox';
-import { min } from 'date-fns';
 
 const ProductPage = () => {
 

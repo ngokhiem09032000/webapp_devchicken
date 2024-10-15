@@ -4,7 +4,6 @@ import { cartTitle, getMyInfo, orderDetailsTitle, orderTitle, shippingFee } from
 import { searchItemsByIds, updateStock } from '../../services/serviceProduct';
 import { calculatePriceAll, convertVnd } from '../tool/toolAll';
 import Required from '../element/Required';
-import { SiTruenas } from 'react-icons/si';
 import { FaCcJcb, FaCcVisa } from 'react-icons/fa';
 import { RiBankCardFill } from 'react-icons/ri';
 import { create } from '../../services/serviceOrder';

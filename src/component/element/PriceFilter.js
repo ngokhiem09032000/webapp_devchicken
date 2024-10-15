@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import TextBox from './TextBox';
+import React from 'react';
 import IntBox from './IntBox';
 
 const PriceFilter = ({ enabled, minPrice, maxPrice, toggleFilter, onChangeMin, onChangeMax }) => {

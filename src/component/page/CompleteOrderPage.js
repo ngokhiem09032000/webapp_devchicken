@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { cartTitle, getMyInfo, orderDetailsTitle, orderTitle, shippingFee } from '../../services/apiService';
-import { searchItemsByIds } from '../../services/serviceProduct';
+import { useNavigate } from 'react-router-dom';
+import { orderDetailsTitle, orderTitle, shippingFee } from '../../services/apiService';
 import { calculatePriceAll, convertVnd } from '../tool/toolAll';
-import Required from '../element/Required';
-import { SiTruenas } from 'react-icons/si';
-import { FaCcJcb, FaCcVisa, FaCheckCircle } from 'react-icons/fa';
-import { RiBankCardFill } from 'react-icons/ri';
+
+import { FaCheckCircle } from 'react-icons/fa';
 
 const CompleteOrderPage = () => {
 

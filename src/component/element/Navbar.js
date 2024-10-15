@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
 import Logo from "./Logo";
 import { Link } from "react-router-dom";
-import AvatarDropdown from "./AvatarDropdown";
 import { useNavigate } from 'react-router-dom';
-import { CiLogout, CiShoppingCart, CiUser } from "react-icons/ci";
+import { CiShoppingCart, CiUser } from "react-icons/ci";
 import { GlobalContext } from "./GlobalContext";
+import { IoIosMenu } from "react-icons/io";
 
 const Navbar = (props) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -58,7 +58,7 @@ const Navbar = (props) => {
             className="xl:hidden block cursor-pointer text-5xl"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            <box-icon name="menu" color="#4A4A4A" size="lg"></box-icon>
+            <IoIosMenu color="#4A4A4A" />
           </div>
         </div>
         <div

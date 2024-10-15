@@ -1,11 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { token } from "../../services/serviceLogin";
-import Logo from "../element/Logo";
 import PopupReponse from "../popup/PopupReponse";
 import { CiLogin } from "react-icons/ci";
 import { PiTrademarkRegisteredLight } from "react-icons/pi";
-import { GlobalContext } from "../element/GlobalContext";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");

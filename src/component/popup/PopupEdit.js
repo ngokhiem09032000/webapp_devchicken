@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TextFieldCus from '../element/TextFieldCus';
-import { camelCaseToSpaces, castModule } from "../tool/toolAll";
-import SelectCus from '../element/SelectCus';
-import { de } from 'date-fns/locale';
-
+import { camelCaseToSpaces } from "../tool/toolAll";
 
 // listKey : là những key của module muốn tạo hoặc cập nhật ( ["userName","fullName","birthDate"] )
 // listTypeKey : là những loại component của từng key ([0,0,1]) 0: là Textfield ; 1 là DatePicker ; 2 là Select ( cần truyền thêm 1 list option)

@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { fetchImage } from '../../services/apiService';
+import React, { useState } from 'react';
 import { convertVnd } from '../tool/toolAll';
 
 const ItemProduct = ({ name, description, price, imageUrl, imageUrl2, viewItem, color, sizes }) => {

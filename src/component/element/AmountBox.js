@@ -1,6 +1,6 @@
 // src/components/InputBox.js
 
-import React, { useState } from 'react';
+import React from 'react';
 import { FaMinus, FaPlus } from 'react-icons/fa';
 
 const AmountBox = ({ value, min, max, handleChange, increaseValue, decreaseValue, error }) => {
