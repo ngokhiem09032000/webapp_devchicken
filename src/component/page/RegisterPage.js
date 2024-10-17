@@ -65,7 +65,7 @@ const RegisterPage = () => {
             const rs = await create(formData);
             if (rs && rs.code === 1000) {
                 alert("Đăng ký thành công");
-                navigate("/home");
+                navigate("/account");
             } else {
                 if (rs && rs.message) {
                     alert(rs.message);

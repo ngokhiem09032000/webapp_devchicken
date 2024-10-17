@@ -63,12 +63,12 @@ const Navbar = (props) => {
         </div>
         <div
           className={`xl:hidden w-full bg-background flex flex-col items-center gap-6 font-semibold text-lg
-        transform transition-transform ${isMenuOpen ? "opacity-100 " : "opacity-0 hidden"}`}
+        transform transition-transform ${isMenuOpen ? "opacity-100 " : "opacity-0 hidden"} z-10`}
           style={{ transition: "transform 0.3s ease, opacity 0.3s ease" }}
         >
           {props.categorys.map((item, index) => (
             <li key={index} onClick={() => navigate(props.categoryLinks[index])}
-              className="list-none w-full text-center p-4 hover:bg-accent hover:text-background transition-all cursor-pointer">
+              className="list-none w-full text-center text-blue-950 p-4 hover:bg-blue-950 hover:text-white transition-all cursor-pointer">
               {item}
             </li>
           ))}

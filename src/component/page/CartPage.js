@@ -213,6 +213,40 @@ const CartPage = () => {
                                                     return; // Nếu input là rỗng, trả về min, 
                                                 }
 
+                                            }} increaseValue={() => {
+                                                const cart = JSON.parse(localStorage.getItem(cartTitle));
+                                                if (item.amount < max) {
+                                                    const updatedList = cart.map(itemA => {
+                                                        if (itemA.id === item.id && itemA.size === item.size) {
+                                                            return {
+                                                                ...itemA,
+                                                                amount: itemA.amount + 1,
+                                                                totalPrice: item.price * (itemA.amount + 1)
+                                                            }
+                                                        }
+                                                        return itemA; // Giữ nguyên đối tượng nếu không trùng id
+                                                    });
+                                                    localStorage.setItem(cartTitle, JSON.stringify(updatedList));
+                                                    let amount = calculateAmount(updatedList);
+                                                    setGlobalVariable(amount);
+                                                    fetchModules();
+                                                }
+                                            }} decreaseValue={() => {
+                                                const cart = JSON.parse(localStorage.getItem(cartTitle));
+                                                const updatedList = cart.map(itemA => {
+                                                    if (itemA.id === item.id && itemA.size === item.size) {
+                                                        return {
+                                                            ...itemA,
+                                                            amount: (itemA.amount > 1 ? itemA.amount - 1 : 1),
+                                                            totalPrice: item.price * (itemA.amount > 1 ? itemA.amount - 1 : 1)
+                                                        }
+                                                    }
+                                                    return itemA; // Giữ nguyên đối tượng nếu không trùng id
+                                                });
+                                                localStorage.setItem(cartTitle, JSON.stringify(updatedList));
+                                                let amount = calculateAmount(updatedList);
+                                                setGlobalVariable(amount);
+                                                fetchModules();
                                             }}></AmountBoxSmall>
                                         </div>
                                     </div>
@@ -235,20 +269,20 @@ const CartPage = () => {
 
                 </div>
                 <div className='w-1/12 hidden xl:block'></div>
-                <form className='w-full xl:w-3/12 h-96 border border-gray-200 rounded-lg'>
+                <form className='w-full xl:w-3/12 h-fit border border-gray-200 rounded-lg p-3'>
                     <div className='flex p-3'>
-                        <div className='w-1/2 text-xl'>
+                        <div className='w-1/2 text-sm sm:text-xl'>
                             Phí vận chuyển
                         </div>
-                        <div className='w-1/2 text-xl text-end'>
+                        <div className='w-1/2 text-sm sm:text-xl text-end'>
                             {convertVnd(shippingFee)}
                         </div>
                     </div>
                     <div className='flex p-3'>
-                        <div className='w-1/2 text-2xl font-bold'>
+                        <div className='w-1/2 text-sm sm:text-2xl font-bold'>
                             Tổng cộng
                         </div>
-                        <div className='w-1/2 text-2xl font-bold text-end'>
+                        <div className='w-1/2 text-sm sm:text-2xl font-bold text-end'>
                             {convertVnd(calculatePriceAll(modules, shippingFee))}
                         </div>
                     </div>
@@ -266,8 +300,8 @@ const CartPage = () => {
                                 }
                             }}>
                             <div className='flex justify-center items-center'>
-                                <MdOutlinePayments size={30} className='mr-2' />
-                                <span>Thanh toán</span>
+                                <MdOutlinePayments size={30} className='mr-2 hidden sm:block' />
+                                <span className='text-xs sm:text-lg'>Thanh toán</span>
                             </div>
                         </button>
                     </div>

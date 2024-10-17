@@ -14,6 +14,7 @@ import { useContext, useEffect } from "react";
 import PayPage from "./component/page/PayPage";
 import CompleteOrderPage from "./component/page/CompleteOrderPage";
 import { orderDetailsTitle, orderTitle } from "./services/apiService";
+import OrderDetailPage from "./component/page/OrderDetailPage";
 
 function App() {
   const categorys = ["Trang chủ", "Sản phẩm", "Sale", "Hệ thống cửa hàng"];
@@ -46,6 +47,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/pay" element={<PayPage />} />
         <Route path="/complete" element={<CompleteOrderPage />} />
+        <Route path="/orderdetail" element={<OrderDetailPage />} />
       </Routes>
       <Footer />
     </div>
