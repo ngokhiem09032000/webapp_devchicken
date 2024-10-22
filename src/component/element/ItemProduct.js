@@ -19,20 +19,20 @@ const ItemProduct = ({ name, description, price, imageUrl, imageUrl2, viewItem, 
 
     return (
         <div>
-            <div className="rounded overflow-hidden shadow-lg transform transition duration-300 hover:scale-90 hover:shadow-xl relative">
+            <div className="rounded-md border overflow-hidden shadow-lg transform transition duration-300 hover:scale-90 hover:shadow-xl relative">
                 <img className="w-full h-48 object-scale-down" src={src} onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave} alt="Product Image" onClick={viewItem} />
                 <div className="px-6 py-4">
                     <div className="font-bold text-xl mb-2">{name}</div>
-                    <p className="text-gray-800 text-base mb-2">
+                    <p className="text-gray-800 mb-2">
                         {color}
                     </p>
-                    <p className="text-gray-500 text-base">
+                    <p className="hidden text-gray-500 text-base lg:block">
                         {description}
                     </p>
                     <div className="flex items-center justify-between mt-4">
                         <div>
-                            <span className="text-red-500 font-md text-lg mr-2">{convertVnd(price)}</span>
+                            <span className="text-red-500 font-md text-sm lg:text-lg mr-2">{convertVnd(price)}</span>
                             {/* <span class="line-through text-gray-500">$30</span> */}
                         </div>
                         {/* <button className="bg-blue-950 text-white font-bold py-2 px-4 hover:bg-white hover:text-blue-950 border border-blue-950 rounded-3xl">

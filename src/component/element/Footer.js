@@ -6,11 +6,11 @@ import { Link } from 'react-router-dom';
 const Footer = () => {
     return (
         <>
-            <footer className="bg-gray-800 text-white py-8">
+            <footer className="bg-gray-800 text-white py-20">
                 <div className="container mx-auto px-6">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                        <div className="mb-4">
-                            <h1 className="text-xl font-bold mb-4">Về chúng tôi</h1>
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                        <div className="mb-4 text-sm sm:text-base">
+                            <h1 className="text-base sm:text-xl font-bold mb-4">Về chúng tôi</h1>
                             <div className='mb-1'>
                                 <Link to="#" className="hover:text-gray-400">Giới thiệu</Link>
                             </div>
@@ -21,8 +21,8 @@ const Footer = () => {
                                 <Link to="#" className="hover:text-gray-400">Cơ hội việc làm</Link>
                             </div>
                         </div>
-                        <div className="mb-4">
-                            <h1 className="text-xl font-bold mb-4">Hỗ trợ khách hàng</h1>
+                        <div className="mb-4 text-sm sm:text-base">
+                            <h1 className="text-base sm:text-xl font-bold mb-4">Hỗ trợ khách hàng</h1>
                             <div className='mb-1'>
                                 <Link to="#" className="hover:text-gray-400">Chính sách đổi / hoàn trả</Link>
                             </div>
@@ -33,8 +33,8 @@ const Footer = () => {
                                 <Link to="#" className="hover:text-gray-400">Chính sách bảo mật</Link>
                             </div>
                         </div>
-                        <div className="mb-4">
-                            <h1 className="text-xl font-bold mb-4">Phương thức thanh toán</h1>
+                        <div className="mb-4 text-sm sm:text-base">
+                            <h1 className="text-base sm:text-xl font-bold mb-4">Phương thức thanh toán</h1>
                             <div className='mb-1'>
                                 <Link to="#" className="hover:text-gray-400">COD</Link>
                             </div>
@@ -45,8 +45,8 @@ const Footer = () => {
                                 <Link to="#" className="hover:text-gray-400">VISA/MASTERCARD</Link>
                             </div>
                         </div>
-                        <div className="mb-4">
-                            <h1 className="text-xl font-bold mb-4">Dịch vụ khách hàng</h1>
+                        <div className="mb-4 text-sm sm:text-base">
+                            <h1 className="text-base sm:text-xl font-bold mb-4">Dịch vụ khách hàng</h1>
                             <div className='mb-1'>
                                 <Link to="#" className="hover:text-gray-400">Mua hàng online: 09 99 99 9999</Link>
                             </div>
@@ -61,7 +61,7 @@ const Footer = () => {
                         <a href="#" className="hover:text-gray-400"><TbBrandInstagram size={30} /></a>
                         <a href="#" className="hover:text-gray-400"><TbBrandTiktok size={30} /></a>
                     </div>
-                    <div className="mt-6 text-center">
+                    <div className="mt-6 text-center text-sm sm:text-base">
                         <p>&copy; {new Date().getFullYear()} DEVCHICKEN</p>
                     </div>
                 </div>

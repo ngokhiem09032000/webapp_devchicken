@@ -14,12 +14,12 @@ const Navbar = (props) => {
   return (
     <div>
       <header className="bg-white drop-shadow-md">
-        <div className="flex justify-between items-center text-text py-6 px-8">
+        <div className="flex justify-between items-center text-text p-2 lg:py-6 px-8">
           <a href="#">
             <Logo name="DEVCHICKEN"></Logo>
           </a>
 
-          <ul className="hidden xl:flex items-center gap-12 font-semibold text-base">
+          <ul className="hidden lg:flex items-center gap-12 font-semibold text-base">
             {props.categorys.map((item, index) => (
               <Link key={index} to={props.categoryLinks[index]}>
                 <li
@@ -30,7 +30,7 @@ const Navbar = (props) => {
             ))}
           </ul>
 
-          <div className="relative hidden md:flex items-center justify-center gap-3">
+          <div className="relative hidden md:hidden items-center justify-center gap-3">
             <div className="absolute left-3 text-2xl">
               <box-icon name="search" color="#4A4A4A"></box-icon>
             </div>
@@ -42,7 +42,7 @@ const Navbar = (props) => {
             ></input>
           </div>
 
-          <div className="flex space-x-2">
+          <div className="hidden lg:flex space-x-2">
             <div onClick={props.onAccount}>
               <CiUser size={30} />
             </div>
@@ -55,15 +55,15 @@ const Navbar = (props) => {
           </div>
 
           <div
-            className="xl:hidden block cursor-pointer text-5xl"
+            className="hidden cursor-pointer text-5xl"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             <IoIosMenu color="#4A4A4A" />
           </div>
         </div>
         <div
-          className={`xl:hidden w-full bg-background flex flex-col items-center gap-6 font-semibold text-lg
-        transform transition-transform ${isMenuOpen ? "opacity-100 " : "opacity-0 hidden"} z-10`}
+          className={`hidden w-full bg-background flex-col items-center gap-6 font-semibold text-lg
+        transform transition-transform ${isMenuOpen ? "opacity-100 " : "opacity-0"} z-10`}
           style={{ transition: "transform 0.3s ease, opacity 0.3s ease" }}
         >
           {props.categorys.map((item, index) => (

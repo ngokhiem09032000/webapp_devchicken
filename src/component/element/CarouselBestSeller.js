@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import ItemProduct from "./ItemProduct";
 import { searchItems } from "../../services/serviceProduct";
@@ -9,6 +9,9 @@ const CarouselBestSeller = () => {
     const [modules, setModules] = useState([]);
     const navigate = useNavigate();
     const [divideBy, setDivideBy] = useState(4); // Mặc định là chia cho 4
+    const swipeAreaRef = useRef(null);
+    let startX = 0;
+    let endX = 0;
 
     const fetchModules = async () => {
         try {
@@ -36,7 +39,7 @@ const CarouselBestSeller = () => {
                 // Tailwind sm: min-width 640px
                 setDivideBy(2); // Nếu màn hình là sm, chia cho 1
             } else {
-                setDivideBy(1); // Mặc định chia cho 1 nếu không phải sm hay md
+                setDivideBy(2); // Mặc định chia cho 1 nếu không phải sm hay md
             }
         };
         // Gọi hàm khi load trang
@@ -73,8 +76,36 @@ const CarouselBestSeller = () => {
         );
     };
 
+    const handleTouchStart = (event) => {
+        startX = event.touches[0].clientX; // Lưu vị trí bắt đầu
+    };
+
+    const handleTouchMove = (event) => {
+        endX = event.touches[0].clientX; // Cập nhật vị trí khi di chuyển
+    };
+
+    const handleTouchEnd = () => {
+        const distanceX = endX - startX; // Tính toán khoảng cách vuốt
+
+        if (distanceX > 30) {
+            console.log('Vuốt phải'); // Vuốt phải
+            setActiveIndex((prevIndex) =>
+                prevIndex === 0 ? Math.ceil(modules.length / divideBy) - 1 : prevIndex - 1
+            );
+        } else if (distanceX < -30) {
+            console.log('Vuốt trái'); // Vuốt trái
+            setActiveIndex((prevIndex) =>
+                prevIndex === Math.ceil(modules.length / divideBy) - 1 ? 0 : prevIndex + 1
+            );
+        }
+    };
+
     return (
-        <div className="relative overflow-hidden w-full">
+        <div className="relative overflow-hidden w-full"
+            ref={swipeAreaRef}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}>
             {/* Indicators */}
             <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
                 {modules &&
@@ -96,7 +127,7 @@ const CarouselBestSeller = () => {
             >
                 {modules &&
                     modules.map((item, index) => (
-                        <div key={index} className="w-full sm:w-1/2 lg:w-2/6 xl:w-1/4 flex-shrink-0 p-5">
+                        <div key={index} className="w-1/2 sm:w-1/2 lg:w-2/6 xl:w-1/4 flex-shrink-0 p-1 sm:p-2">
                             <ItemProduct name={item.name} description={item.description} price={item.price} imageUrl={item.imageUrl}
                                 imageUrl2={item.imageUrl2} color={item.color} sizes={item.sizes} viewItem={() => {
                                     navigate("/product/" + item.id);

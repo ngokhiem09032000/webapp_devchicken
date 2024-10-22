@@ -79,7 +79,7 @@ const ProductPage = () => {
         <div className="flex w-full">
             <div className="w-1/12 hidden md:block"></div>
             <div className="flex-grow bg-white p-4">
-                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
+                <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
                     {modules && modules.map((item, index) => (
                         <div key={index}>
                             <ItemProduct name={item.name} description={item.description} price={item.price} imageUrl={item.imageUrl}
